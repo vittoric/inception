@@ -1,34 +1,62 @@
+volumes:
+  db:
+    driver: local
+    name: db
+    driver_opts:
+      device: /Users/vica/data/db
+      type: none
+      o: bind
+
+  wordpress:
+    driver: local
+    name: wordpress
+    driver_opts:
+      device: /Users/vica/data/www
+      type: none
+      o: bind
+
+networks:
+  network:
+    name: inception
+    driver: bridge
+
 services:
   nginx:
     build: requirements/nginx/.
     container_name: nginx
     depends_on:
       - wordpress
-      - mariadb
+    image: nginx
     ports:
-      - "80:80"
+      - "443:443"
     volumes:
       - ./web:/var/www/html
+    restart: always
     networks:
-      inception:
+      - inception
+    env_file:
+      - .env
 
   wordpress:
     build: requirements/wordpress/.
     container_name: wp-php
     depends_on:
       - mariadb
+    image: wordpress
     volumes:
       - ./web:/var/www/html
     networks:
-      inception:
+      - inception
+    env_file:
+      - .env
 
   mariadb:
     build: requirements/mariadb/.
     container_name: mariadb
+    image: mariadb
     volumes:
       - ./database:/var/lib/mysql
     networks:
-      inception:
-
-networks:
-  inception:
+      - inception
+    env_file: 
+      - .env

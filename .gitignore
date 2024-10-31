@@ -1,3 +1,4 @@
-srcs/database/*
-srcs/volumes/*
-srcs/web/*
+srcs/database/
+srcs/volumes/
+srcs/web/
+

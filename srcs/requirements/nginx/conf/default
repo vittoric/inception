@@ -1,24 +1,22 @@
 server {
-    listen 443 ssl;
-    listen [::]:443 ssl;
-    server_name vcodrean.42.fr;
+	listen 443 default_server;
+	listen [::]:443 default_server;
 
-    ssl_certificate /etc/nginx/ssl/nginx.crt;
-    ssl_certificate_key /etc/nginx/ssl/nginx.key;
-    ssl_protocols TLSv1.3;
+	root /var/www/html;
 
-    index index.php index.html index.htm index.nginx-debian.html
+	index index.php index.html index.htm index.nginx-debian.html;
 
-    location / {
-        try_files $uri &uri/ /index.php$is_args$args;
-    }
+	server_name _;
+	ssl_certificate /etc/ssl/certs/nginx.crt;
+	ssl_certificate_key /etc/ssl/private/nginx.key;
+	ssl_protocols TLSv1.3;
 
-    location ~ \.php$ {
-        try_files $uri = 404;
-        include snippets/fastcgi-php.conf;
-        fastcgi_split_path_info ^(.+\.php)(/.+)$;
-        fastcgi_pass wp-php:9000;
-        fastcgi_index index.php;
+	location / {
+		try_files $uri $uri/ =404;
+	}
 
-    }
+	location ~ \.php$ {
+		include snippets/fastcgi-php.conf;
+		fastcgi_pass wordpress:9000;
+	}
 }
