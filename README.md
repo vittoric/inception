@@ -13,7 +13,7 @@ en volumenes y en www cambiar la home del device(por la home del dispositivo) ec
 
 FROM debian:bullseye
 
-añadir el vcodrean.42.fr en el fichero de etc/host de la raiz (sudo vim host)
+añadir el vcodrean.42.fr en el fichero de etc/hosts de la raiz (sudo vim host)
 127.0.0.1       vcodrean.42.fr
 
 
