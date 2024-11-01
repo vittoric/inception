@@ -2,7 +2,10 @@ FROM debian:buster
 
 RUN apt-get update && apt-get install -y php-fpm php-mysql curl
 
-COPY conf/www.conf /etc/php/8.2/fpm/pool.d/.
+# Crear directorio para el archivo PID de PHP-FPM
+RUN mkdir -p /run/php && chown -R www-data:www-data /run/php
+
+COPY conf/www.conf /etc/php/7.3/fpm/pool.d/.
 COPY tools/script.sh .
 
 RUN chmod +x script.sh
