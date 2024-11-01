@@ -4,27 +4,22 @@ all: volumes
 down:
 	@docker compose -f ./srcs/docker-compose.yml down
 
-re: 
-	fclean all
-
-volumes:
-	@mkdir -p srcs/volumes
-	@mkdir -p srcs/volumes/mysql
-	@mkdir -p srcs/volumes/wordpress
-	@mkdir -p srcs/volumes/phpmyadmin
-
-clean:
-	@docker stop $$(docker ps -qa)
-	@docker rm $$(docker ps -qa)
-	@docker rmi $$(docker images -qa)
-	@docker volume rm $$(docker volume ls -q)
-	@docker network rm $$(docker network ls -q)
-	@docker system prune -af
-	
-
-fclean: clean
-	@sudo rm -rf srcs/volumes
-
 re: fclean all
 
-.PHONY: all clean fclean re volumes down
+volumes:
+	mkdir -p $$HOME/data/mariadb/;
+	mkdir -p $$HOME/data/wordpress/;
+
+fclean: clean
+	- sudo rm -rf $$HOME/data;
+
+clean:
+	- docker stop $$(docker ps -a -q)
+	- docker rm $$(docker ps -a -q)
+	- docker rmi $$(docker images -q)
+	- docker volume rm $$(docker volume ls -q)
+	- docker network rm $$(docker network ls -q)
+	- docker system prune -a -f
+ 
+
+ .PHONY:	all down clean fclean re volumes
