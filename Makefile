@@ -7,8 +7,8 @@ down:
 re: fclean all
 
 volumes:
-	mkdir -p $$HOME/data/mariadb/;
-	mkdir -p $$HOME/data/wordpress/;
+	mkdir -p $$HOME/data/db/;
+	mkdir -p $$HOME/data/www/;
 
 fclean: clean
 	- sudo rm -rf $$HOME/data;

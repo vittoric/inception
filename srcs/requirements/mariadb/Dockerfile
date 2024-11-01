@@ -7,6 +7,6 @@ COPY tools/script.sh .
 
 RUN mkdir /run/mysqld && chmod +x script.sh
 
-#EXPOSE 3306
+EXPOSE 3306
 
 CMD ["./script.sh"]
